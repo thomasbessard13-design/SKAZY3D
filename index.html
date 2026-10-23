@@ -1,1 +1,237 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111111">
+<title>SKAZY3D | Boutique 3D</title>
+<style>
+:root{--red:#ed3434;--bg:#101010;--card:#1b1b1b;--text:#fff;--muted:#b7b7b7}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+button,input,textarea,select{font:inherit}
+button,.btn{border:0;border-radius:10px;padding:12px 16px;cursor:pointer;font-weight:bold}
+.primary{background:var(--red);color:white}
+.secondary{background:#303030;color:white}
+header{position:sticky;top:0;background:#111f;backdrop-filter:blur(12px);border-bottom:1px solid #333;z-index:5}
+nav{max-width:1100px;margin:auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.logo{font-size:23px;font-weight:900;letter-spacing:1px}.logo span{color:var(--red)}
+nav .links{display:flex;gap:20px;color:#ddd}
+.wrap{max-width:1100px;margin:auto;padding:0 20px}
+.hero{padding-top:75px;padding-bottom:75px;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:35px}
+.tag{color:#ff8585;font-weight:bold;font-size:13px;letter-spacing:2px}
+h1{font-size:clamp(42px,7vw,76px);line-height:1.02;margin:18px 0;letter-spacing:-3px}
+h1 span,h2 span{color:var(--red)}
+p{line-height:1.7;color:var(--muted)}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+.art{min-height:300px;border:1px solid #393939;border-radius:25px;background:radial-gradient(circle,#482020,#191919 70%);display:grid;place-items:center}
+.art div{font-size:90px;font-weight:900;color:white;background:linear-gradient(145deg,#ff5b5b,#a90000);padding:45px 28px;border-radius:25px;transform:rotate(-8deg);box-shadow:0 25px 60px #0009}
+.benefits{border-top:1px solid #333;border-bottom:1px solid #333;background:#161616;padding:19px;text-align:center;color:#eee}
+section{padding-top:65px;padding-bottom:65px}
+.heading{margin-bottom:25px}
+h2{font-size:36px;margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.product{background:var(--card);border:1px solid #303030;border-radius:17px;overflow:hidden}
+.product-art{height:170px;background:radial-gradient(circle,#393939,#202020);display:grid;place-items:center;font-size:70px}
+.product-info{padding:17px}
+.product-info h3{margin:0 0 7px}
+.product-info p{font-size:14px;min-height:46px}
+.price{font-size:20px;font-weight:900;display:block;margin:14px 0}
+.product-info button{width:100%}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.filter{background:#292929;color:white;border:1px solid #444}
+.filter.active{background:var(--red);border-color:var(--red)}
+.custom{background:#281717;border:1px solid #542323;border-radius:20px;padding:30px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:20px}
+.step{background:var(--card);border:1px solid #333;border-radius:14px;padding:20px}
+.step strong{color:var(--red);font-size:22px}
+.contact{display:grid;grid-template-columns:.8fr 1.2fr;gap:30px}
+form,.cart{background:var(--card);padding:22px;border:1px solid #333;border-radius:17px}
+label{display:block;font-size:14px;font-weight:bold;margin:12px 0 6px}
+input,select,textarea{width:100%;background:#111;color:white;border:1px solid #444;border-radius:9px;padding:12px}
+textarea{min-height:90px;resize:vertical}
+form button{width:100%;margin-top:17px}
+.note{font-size:12px;color:#999}
+footer{border-top:1px solid #333;padding:25px 0;color:#999;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.cartbox{position:fixed;inset:0;background:#000b;z-index:10;display:none;align-items:center;justify-content:center;padding:15px}
+.cart{width:min(500px,100%);max-height:85vh;overflow:auto}
+.cartbox.open{display:flex}
+.cartrow{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #333;padding:12px 0}
+.cartrow button{padding:5px 10px}
+.carttotal{font-size:20px;font-weight:bold;text-align:right;padding:18px 0}
+@media(max-width:750px){
+ .hero{grid-template-columns:1fr;padding-top:45px;padding-bottom:45px}
+ .art{min-height:220px}.art div{font-size:65px;padding:30px 20px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .product-art{height:125px;font-size:50px}.product-info{padding:12px}
+ .product-info p{min-height:0}.product-info h3{font-size:16px}
+ .steps,.contact{grid-template-columns:1fr}
+ nav .links{display:none}h2{font-size:29px}
+}
+@media(max-width:390px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<nav>
+<a class="logo" href="#home">SKAZY<span>3D</span></a>
+<div class="links"><a href="#shop">Boutique</a><a href="#custom">Sur mesure</a><a href="#contact">Contact</a></div>
+<button class="primary" onclick="showCart()">🛒 Panier (<span id="count">0</span>)</button>
+</nav>
+</header>
+
+<main>
+<div class="wrap hero" id="home">
+<div>
+<div class="tag">IMPRESSION 3D · CRÉATIONS ORIGINALES</div>
+<h1>Tes idées prennent forme <span>en 3D.</span></h1>
+<p>Bienvenue chez SKAZY3D ! Découvre des créations imprimées en 3D, colorées et originales, fabriquées avec passion.</p>
+<div class="actions"><a class="btn primary" href="#shop">Découvrir la boutique ↗</a><a class="btn secondary" href="#custom">Un projet perso ?</a></div>
+</div>
+<div class="art"><div>S3D</div></div>
+</div>
+
+<div class="benefits">🎨 Plusieurs couleurs · 🖨️ Impression 3D · 💡 Créations sur demande</div>
+
+<section class="wrap" id="shop">
+<div class="heading"><div class="tag">LA SÉLECTION SKAZY3D</div><h2>La <span>boutique.</span></h2><p>Choisis tes créations préférées et prépare une demande de commande.</p></div>
+<div class="filters">
+<button class="filter active" onclick="filterProducts('all',this)">Tout voir</button>
+<button class="filter" onclick="filterProducts('fidget',this)">Antistress</button>
+<button class="filter" onclick="filterProducts('deco',this)">Accessoires</button>
+<button class="filter" onclick="filterProducts('custom',this)">Personnalisé</button>
+</div>
+<div class="grid" id="products">
+<article class="product" data-cat="fidget">
+<div class="product-art">🌀</div><div class="product-info"><h3>Jouet antistress</h3><p>Un petit objet ludique. Plusieurs couleurs possibles.</p><span class="price">0,80 €</span><button class="primary" onclick="add('fidget')">+ Ajouter</button></div>
+</article>
+<article class="product" data-cat="fidget">
+<div class="product-art">🌟</div><div class="product-info"><h3>Fidget coloré</h3><p>Un accessoire original pour le bureau.</p><span class="price">À définir</span><button class="primary" onclick="add('fidget2')">+ Ajouter</button></div>
+</article>
+<article class="product" data-cat="deco">
+<div class="product-art">🔑</div><div class="product-info"><h3>Porte-clés 3D</h3><p>Choisis ta couleur et demande une personnalisation.</p><span class="price">À définir</span><button class="primary" onclick="add('keychain')">+ Ajouter</button></div>
+</article>
+<article class="product" data-cat="deco">
+<div class="product-art">🌵</div><div class="product-info"><h3>Objet déco</h3><p>Une petite création pour décorer ton espace.</p><span class="price">À définir</span><button class="primary" onclick="add('decor')">+ Ajouter</button></div>
+</article>
+<article class="product" data-cat="custom">
+<div class="product-art">✨</div><div class="product-info"><h3>Création sur mesure</h3><p>Tu as une idée ? Explique ton projet.</p><span class="price">Sur devis</span><button class="primary" onclick="add('custom')">+ Ajouter</button></div>
+</article>
+<article class="product" data-cat="custom">
+<div class="product-art">🎨</div><div class="product-info"><h3>Choix des couleurs</h3><p>Demande une couleur selon les filaments disponibles.</p><span class="price">Sur devis</span><button class="primary" onclick="add('color')">+ Ajouter</button></div>
+</article>
+</div>
+<p class="note">Les illustrations sont des exemples décoratifs. Remplace-les par tes photos réelles. Confirme les prix, la faisabilité et les délais avant toute commande.</p>
+</section>
+
+<section class="wrap" id="custom">
+<div class="custom"><div class="tag">TON IDÉE, TA CRÉATION</div><h2>Une idée à imprimer ?</h2><p>Un objet personnalisé, une autre couleur ou un accessoire original ? Envoie ta demande. Le prix sera confirmé avant la fabrication.</p><a class="btn primary" href="#contact">Demander un devis ↗</a></div>
+<div class="steps">
+<div class="step"><strong>01</strong><h3>Choisis</h3><p>Découvre les produits et les couleurs.</p></div>
+<div class="step"><strong>02</strong><h3>Demande</h3><p>Indique le produit et la quantité souhaitée.</p></div>
+<div class="step"><strong>03</strong><h3>Confirme</h3><p>Le prix et la livraison sont convenus avant la commande.</p></div>
+</div>
+</section>
+
+<section class="wrap" id="contact">
+<div class="contact">
+<div><div class="tag">ON EN PARLE ?</div><h2>Prépare ta <span>commande.</span></h2><p>Remplis le formulaire. Il préparera un récapitulatif à télécharger que tu pourras ensuite envoyer à la boutique.</p><p>Cette version n'encaisse pas les paiements et n'envoie pas automatiquement les commandes.</p></div>
+<form id="orderForm">
+<label for="name">Prénom ou pseudo *</label><input id="name" required maxlength="80" placeholder="Ton prénom">
+<label for="email">Ton e-mail *</label><input id="email" type="email" required placeholder="toi@exemple.fr">
+<label for="product">Produit souhaité *</label>
+<select id="product" required>
+<option value="">Choisir un produit</option><option>Jouet antistress — 0,80 €</option><option>Fidget coloré — prix à confirmer</option><option>Porte-clés 3D — prix à confirmer</option><option>Objet déco — prix à confirmer</option><option>Création sur mesure — devis</option><option>Choix des couleurs — devis</option>
+</select>
+<label for="color">Couleur souhaitée</label><select id="color"><option>À discuter</option><option>Rouge</option><option>Noir</option><option>Blanc</option><option>Bleu</option><option>Vert</option><option>Jaune</option><option>Multicolore</option></select>
+<label for="quantity">Quantité</label><input id="quantity" type="number" min="1" max="50" value="1">
+<label for="details">Détails</label><textarea id="details" maxlength="1000" placeholder="Taille, couleur, idée personnalisée…"></textarea>
+<button class="primary" type="submit">Préparer ma demande ↗</button>
+<p class="note">Pas besoin d'indiquer ton adresse postale ici. Les modalités de remise seront convenues séparément.</p>
+</form>
+</div>
+</section>
+</main>
+
+<footer><div class="wrap"><a class="logo" href="#home">SKAZY<span>3D</span></a><span>© <span id="year"></span> SKAZY3D · Créations imprimées en 3D</span><a href="#contact">Contact ↑</a></div></footer>
+
+<div class="cartbox" id="cartbox" role="dialog" aria-modal="true" aria-label="Panier">
+<div class="cart">
+<div style="display:flex;justify-content:space-between;align-items:center"><h2>Ton panier</h2><button class="secondary" onclick="hideCart()">Fermer ✕</button></div>
+<div id="cartitems"></div>
+<div class="carttotal" id="total">Total : 0,00 €</div>
+<p class="note">Les prix à définir et les devis ne sont pas inclus dans le total.</p>
+<button class="primary" style="width:100%" onclick="checkout()">Continuer vers la commande</button>
+</div>
+</div>
+
+<script>
+const catalog={
+ fidget:{name:"Jouet antistress",price:0.8},
+ fidget2:{name:"Fidget coloré",price:null},
+ keychain:{name:"Porte-clés 3D",price:null},
+ decor:{name:"Objet déco",price:null},
+ custom:{name:"Création sur mesure",price:null},
+ color:{name:"Choix des couleurs",price:null}
+};
+let cart={};
+try{cart=JSON.parse(localStorage.getItem("skazy3d-cart")||"{}")||{}}catch(e){cart={}}
+function money(n){return n.toLocaleString("fr-FR",{style:"currency",currency:"EUR"})}
+function save(){try{localStorage.setItem("skazy3d-cart",JSON.stringify(cart))}catch(e){}}
+function add(id){cart[id]=(cart[id]||0)+1;save();renderCart();alert("Produit ajouté au panier !")}
+function renderCart(){
+ document.getElementById("count").textContent=Object.values(cart).reduce((a,b)=>a+b,0);
+ const box=document.getElementById("cartitems");box.replaceChildren();let total=0;
+ Object.keys(cart).forEach(id=>{
+  if(!catalog[id]||cart[id]<1)return;
+  const p=catalog[id];if(p.price!==null)total+=p.price*cart[id];
+  const row=document.createElement("div");row.className="cartrow";
+  const name=document.createElement("span");
+  name.textContent=p.name+" × "+cart[id]+" — "+(p.price===null?"prix à confirmer":money(p.price*cart[id]));
+  const minus=document.createElement("button");minus.className="secondary";minus.textContent="−";
+  minus.onclick=()=>{cart[id]--;if(cart[id]<=0)delete cart[id];save();renderCart()};
+  const plus=document.createElement("button");plus.className="secondary";plus.textContent="+";
+  plus.onclick=()=>{cart[id]++;save();renderCart()};
+  row.append(name,minus,plus);box.append(row);
+ });
+ if(!box.children.length)box.textContent="Ton panier est vide.";
+ document.getElementById("total").textContent="Total estimé : "+money(total);
+}
+function showCart(){renderCart();document.getElementById("cartbox").classList.add("open")}
+function hideCart(){document.getElementById("cartbox").classList.remove("open")}
+function filterProducts(cat,button){
+ document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));button.classList.add("active");
+ document.querySelectorAll(".product").forEach(p=>p.style.display=cat==="all"||p.dataset.cat===cat?"":"none");
+}
+function checkout(){
+ if(!Object.keys(cart).length){alert("Ton panier est vide.");return}
+ const lines=Object.entries(cart).filter(([id,q])=>catalog[id]&&q>0).map(([id,q])=>q+" × "+catalog[id].name).join("\n");
+ document.getElementById("details").value="Ma sélection :\n"+lines+"\n\n"+document.getElementById("details").value;
+ const first=Object.keys(cart).find(id=>catalog[id]);
+ const matching=[...document.getElementById("product").options].find(o=>o.text.startsWith(catalog[first].name));
+ if(matching)document.getElementById("product").value=matching.value;
+ hideCart();document.getElementById("contact").scrollIntoView({behavior:"smooth"});
+}
+document.getElementById("orderForm").addEventListener("submit",function(e){
+ e.preventDefault();
+ const text="DEMANDE DE COMMANDE SKAZY3D\n\n"+
+ "Prénom/pseudo : "+document.getElementById("name").value+"\n"+
+ "E-mail : "+document.getElementById("email").value+"\n"+
+ "Produit : "+document.getElementById("product").value+"\n"+
+ "Couleur : "+document.getElementById("color").value+"\n"+
+ "Quantité : "+document.getElementById("quantity").value+"\n"+
+ "Détails : "+document.getElementById("details").value+"\n";
+ const blob=new Blob([text],{type:"text/plain;charset=utf-8"});
+ const url=URL.createObjectURL(blob);const a=document.createElement("a");
+ a.href=url;a.download="demande-SKAZY3D.txt";a.click();URL.revokeObjectURL(url);
+ alert("Récapitulatif téléchargé ! Envoie-le à la boutique pour finaliser ta demande.");
+});
+document.getElementById("year").textContent=new Date().getFullYear();
+renderCart();
+</script>
+</body>
+</html>
